@@ -45,12 +45,16 @@
         for(int i = 0; i < getObjectsResult.count; i++){
             QBChatMessage *message = [[QBChatMessage alloc] init];
             
-                message.recipientID = [[getObjectsResult.objects objectAtIndex:i]fields][@"recipientID"] ;
-                message.senderID = [[getObjectsResult.objects objectAtIndex:i]userID];
-                message.text = [[getObjectsResult.objects objectAtIndex:i]fields][@"message"];
-            //if(message.recipientID == self.opponent.ID && message.senderID == ){
+            message.recipientID = (NSInteger)[[[getObjectsResult.objects objectAtIndex:i]fields][@"recipientID"] integerValue];
+            
+            message.senderID = [[getObjectsResult.objects objectAtIndex:i]userID];
+        
+            message.text = [[getObjectsResult.objects objectAtIndex:i]fields][@"message"];
+            // If user is sender while opponent is recipient, or if user is recipient and opponent is sender
+            if((message.recipientID == self.opponent.ID && message.senderID == [LocalStorageService shared].currentUser.ID) || (message.recipientID == [LocalStorageService shared].currentUser.ID && message.senderID == self.opponent.ID)) {
                 [messages3 addObject:message];
-            //}
+            }
+            
         }
         messages2 = messages3;
     }else{
