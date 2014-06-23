@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MessagePaneController">
+            <connections>
+                <outlet property="chatCell" destination="nc0-5U-QZz" id="sOU-xc-yRz"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AudioCellIn" rowHeight="104" id="nc0-5U-QZz" customClass="AudioCellInStream">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nc0-5U-QZz" id="ERd-7x-6Bd">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" id="a17-Ky-9aj" customClass="SCBubbleViewIn">
+                        <rect key="frame" x="40" y="1" width="120" height="100"/>
+                        <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                        <subviews>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" image="MSG_bubble_green_edge_left_top.png" id="NAP-oK-YL5">
+                                <rect key="frame" x="0.0" y="0.0" width="19" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="MSG_bubble_green_header.png" id="b0C-y1-wQn">
+                                <rect key="frame" x="19" y="0.0" width="82" height="16"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="MSG_bubble_green_footer.png" id="56V-wO-Ued">
+                                <rect key="frame" x="19" y="84" width="82" height="16"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" image="MSG_bubble_green_edge_right_buttom.png" id="kz3-BR-EeP">
+                                <rect key="frame" x="101" y="84" width="19" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="MSG_bubble_green_left.png" id="Y0a-VC-Kci">
+                                <rect key="frame" x="0.0" y="16" width="19" height="68"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="MSG_bubble_green_right.png" id="jFC-8T-6qm">
+                                <rect key="frame" x="101" y="16" width="19" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="MSG_bubble_green_content.png" id="81h-iA-BA9">
+                                <rect key="frame" x="19" y="16" width="82" height="68"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" image="MSG_bubble_green_edge_left_buttom.png" id="yyU-h5-3wT">
+                                <rect key="frame" x="0.0" y="84" width="19" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" image="MSG_bubble_green_edge_right_top.png" id="17V-dY-Hb8">
+                                <rect key="frame" x="101" y="0.0" width="19" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" id="909-LP-4o5">
+                                <rect key="frame" x="18" y="6" width="88" height="88"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ico_voice_msg.png" id="2Km-aQ-qEc">
+                                        <rect key="frame" x="0.0" y="0.0" width="88" height="68"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" id="Odp-sf-nJL">
+                                        <rect key="frame" x="0.0" y="64" width="88" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="YKh-Sf-hMM">
+                                                <rect key="frame" x="27" y="1" width="34" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="unp-Ya-dnZ">
+                                <rect key="frame" x="45" y="31" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ico_bookmark.png" id="nJh-Gf-8uD">
+                                <rect key="frame" x="101" y="2" width="10" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <progressView opaque="NO" contentMode="scaleToFill" id="XEd-Ae-jWM">
+                        <rect key="frame" x="168" y="45" width="127" height="2"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </progressView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="QUX-2z-kDy" customClass="SCFlatButton">
+                        <rect key="frame" x="182" y="33" width="88" height="34"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.18055652829999999" green="0.53988156840000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <state key="normal" title="Download">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="download:" destination="nc0-5U-QZz" eventType="touchUpInside" id="Rj2-mb-Z9Q"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Michael Knecht" lineBreakMode="tailTruncation" minimumFontSize="10" id="7dU-yw-sTF">
+                        <rect key="frame" x="168" y="2" width="140" height="16"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.24313725489999999" green="0.50980392159999999" blue="0.8862745098" alpha="1" colorSpace="deviceRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="redraw" id="h2y-S5-Iuw" customClass="C2TapImageView">
+                        <rect key="frame" x="3" y="68" width="35" height="35"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </imageView>
+                </subviews>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="activity" destination="unp-Ya-dnZ" id="eiX-Ic-2FN"/>
+                <outlet property="bubbleView" destination="a17-Ky-9aj" id="8u0-Av-pkJ"/>
+                <outlet property="downloadButton" destination="QUX-2z-kDy" id="kK8-vf-oZM"/>
+                <outlet property="duration" destination="YKh-Sf-hMM" id="oJn-JQ-hJw"/>
+                <outlet property="headline" destination="7dU-yw-sTF" id="7Yc-FH-Prb"/>
+                <outlet property="imageNewIndicator" destination="nJh-Gf-8uD" id="4sv-9f-kYs"/>
+                <outlet property="messageImage" destination="2Km-aQ-qEc" id="Tuk-vo-tP9"/>
+                <outlet property="messageImageView" destination="909-LP-4o5" id="1f0-M7-bRf"/>
+                <outlet property="progress" destination="XEd-Ae-jWM" id="rP1-uv-SZu"/>
+                <outlet property="userImage" destination="h2y-S5-Iuw" id="nHR-Qa-Nsn"/>
+                <outlet property="videoBanner" destination="Odp-sf-nJL" id="dQr-kc-GIL"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="MSG_bubble_green_content.png" width="1" height="1"/>
+        <image name="MSG_bubble_green_edge_left_buttom.png" width="19" height="16"/>
+        <image name="MSG_bubble_green_edge_left_top.png" width="19" height="16"/>
+        <image name="MSG_bubble_green_edge_right_buttom.png" width="19" height="16"/>
+        <image name="MSG_bubble_green_edge_right_top.png" width="19" height="16"/>
+        <image name="MSG_bubble_green_footer.png" width="1" height="16"/>
+        <image name="MSG_bubble_green_header.png" width="1" height="16"/>
+        <image name="MSG_bubble_green_left.png" width="19" height="1"/>
+        <image name="MSG_bubble_green_right.png" width="19" height="1"/>
+        <image name="ico_bookmark.png" width="10" height="17"/>
+        <image name="ico_voice_msg.png" width="65" height="65"/>
+    </resources>
+</document>
