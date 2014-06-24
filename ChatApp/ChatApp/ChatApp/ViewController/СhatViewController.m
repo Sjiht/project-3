@@ -36,6 +36,10 @@
     
 }
 
+// message ophalen en inlezen in een andere class (chatMessages.m)
+// op dezelfde manier als friends
+// al met al: models
+
 
 - (void)completedWithResult:(Result *)result{
     // Get objects result
@@ -48,7 +52,7 @@
             message.recipientID = (NSInteger)[[[getObjectsResult.objects objectAtIndex:i]fields][@"recipientID"] integerValue];
             
             message.senderID = [[getObjectsResult.objects objectAtIndex:i]userID];
-        
+            message.datetime = [[getObjectsResult.objects objectAtIndex:i]createdAt];
             message.text = [[getObjectsResult.objects objectAtIndex:i]fields][@"message"];
             // If user is sender while opponent is recipient, or if user is recipient and opponent is sender
             if((message.recipientID == self.opponent.ID && message.senderID == [LocalStorageService shared].currentUser.ID) || (message.recipientID == [LocalStorageService shared].currentUser.ID && message.senderID == self.opponent.ID)) {
@@ -56,6 +60,9 @@
             }
             
         }
+        NSSortDescriptor *sort=[NSSortDescriptor sortDescriptorWithKey:@"datetime" ascending: YES];
+        [messages3 sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+        
         messages2 = messages3;
     }else{
         NSLog(@"errors=%@", result.errors);
