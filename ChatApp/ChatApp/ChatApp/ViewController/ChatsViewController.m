@@ -1,5 +1,5 @@
 //
-//  СhatViewController.h
+//  СhatsViewController.h
 //  ChatApp
 //
 //  Created by Thijs van der Velden on 10/06/2014
@@ -7,15 +7,16 @@
 //
 
 #import "ChatsViewController.h"
-#import "UsersPaginator.h"
+#import "ChatsPaginator.h"
 #import "MainTabBarController.h"
 #import "СhatViewController.h"
+#import "LoginViewController.h"
 
 @interface ChatsViewController () <UITableViewDelegate, UITableViewDataSource, NMPaginatorDelegate>
 
-@property (nonatomic, strong) NSMutableArray *users;
-@property (nonatomic, weak) IBOutlet UITableView *usersTableView;
-@property (nonatomic, strong) UsersPaginator *paginator;
+@property (nonatomic, strong) NSMutableArray *chats;
+@property (nonatomic, weak) IBOutlet UITableView *chatsTableView;
+@property (nonatomic, strong) ChatsPaginator *paginator;
 @property (nonatomic, strong) UILabel *footerLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
@@ -23,27 +24,87 @@
 
 @implementation ChatsViewController
 
+@synthesize loaded;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 #pragma mark
 #pragma mark ViewController lyfe cycle
 
+
 - (void)viewDidLoad
 {
+    //SplashViewController *splashViewController = [[SplashViewController alloc] init];
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
     
-    //NSLog(@"ChatsViewController");
+    // Your app connects to QuickBlox server here.
+    //
+    // QuickBlox session creation
+	[QBAuth createSessionWithDelegate:self];
+    while(loaded != 1)
+    {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogin)
                                                  name:kUserLoggedInNotification object:nil];
     
-    self.users = [NSMutableArray array];
-    self.paginator = [[UsersPaginator alloc] initWithPageSize:10 delegate:self];
+    self.chats = [NSMutableArray array];
+    ChatsPaginator *chatsPaginator = [[ChatsPaginator alloc] init];
+    if(loaded == 1)
+    {
+        [chatsPaginator dbRequest];
+        while([[chatsPaginator usersArray] count] == 0)
+        {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        }
+        if([[chatsPaginator usersArray]objectAtIndex:0] != [NSNull null]){
+            for(int i=0;i<[[chatsPaginator usersArray] count]; i++) {
+                QBUUser *user = [[QBUUser alloc] init];
+                user.login = [[[chatsPaginator usersArray]objectAtIndex:i]fields][@"FriendName"];
+                user.ID = (NSInteger)[[[[chatsPaginator usersArray]objectAtIndex:i]fields][@"FriendID"]integerValue];
+                [self.chats addObject:user];
+            }
+        }
+    }
+}
+
+// QuickBlox API queries delegate
+- (void)completedWithResult:(Result *)result{
+    
+    // QuickBlox session creation  result
+    if([result isKindOfClass:[QBAAuthSessionCreationResult class]]){
+        
+        // Success result
+        if(result.success){
+            
+            double delayInSeconds = 1.0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                // hide splash
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoggedInNotification object:nil];
+                
+                loaded = 1;
+                
+            });
+        }
+    }
 }
 
 - (void)userDidLogin{
     [self setupTableViewFooter];
     
-    // Fetch 10 users
+    // Fetch 10 chats
     [self.paginator fetchFirstPage];
 }
 
@@ -52,7 +113,7 @@
 #pragma mark Storyboard
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
-    // check if users is logged in
+    // check if chats is logged in
     if([LocalStorageService shared].currentUser == nil){
         [((MainTabBarController *)self.tabBarController) showUserIsNotLoggedInAlert];
         return NO;
@@ -63,7 +124,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     ChatViewController *destinationViewController = (ChatViewController *)segue.destinationViewController;
-    QBUUser *user = (QBUUser *)self.users[((UITableViewCell *)sender).tag];
+    QBUUser *user = (QBUUser *)self.chats[((UITableViewCell *)sender).tag];
     destinationViewController.opponent = user;
 }
 
@@ -98,7 +159,7 @@
     self.activityIndicator = activityIndicatorView;
     [footerView addSubview:activityIndicatorView];
     
-    self.usersTableView.tableFooterView = footerView;
+    self.chatsTableView.tableFooterView = footerView;
 }
 
 
@@ -107,18 +168,19 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [self.users count];
+    return [self.chats count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCellIdentifier"];
-    
-    QBUUser *user = (QBUUser *)self.users[indexPath.row];
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChatCellIdentifier"];
+    QBUUser *user = (QBUUser *)self.chats[indexPath.row];
     cell.tag = indexPath.row;
     cell.textLabel.text = user.login;
-    
+
     return cell;
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -149,9 +211,9 @@
 {
     [self.activityIndicator stopAnimating];
     
-    // reload table with users
-    [self.users addObjectsFromArray:results];
-    [self.usersTableView reloadData];
+    // reload table with chats
+    [self.chats addObjectsFromArray:results];
+    [self.chatsTableView reloadData];
 }
 
 @end

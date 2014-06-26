@@ -91,9 +91,14 @@
 #pragma mark received results
 
 // call these from subclass when you receive the results
+-(void)fillUserArray:(NSArray *)results
+{
+    
+}
 
 - (void)receivedResults:(NSArray *)results total:(NSInteger)total 
 {
+    
     [self.results addObjectsFromArray:results];
     self.page++;
     self.total = total;

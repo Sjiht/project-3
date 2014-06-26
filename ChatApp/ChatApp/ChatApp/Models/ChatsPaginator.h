@@ -8,11 +8,9 @@
 
 #import "NMPaginator.h"
 
-@interface UsersPaginator : NMPaginator
+@interface ChatsPaginator : NMPaginator
 
 @property (nonatomic,retain)NSMutableArray *usersArray;
-@property (nonatomic,retain)NSMutableArray *userrequestArray;
 - (void) dbRequest;
-- (void) requestUser: (NSString *) friendName;
-- (void) addUser:(NSInteger *) friendID : (NSString*) friendName;
+
 @end

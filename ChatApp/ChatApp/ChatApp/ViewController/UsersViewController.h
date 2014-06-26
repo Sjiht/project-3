@@ -10,4 +10,8 @@
 
 @interface UsersViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *FriendLabel;
+
+- (IBAction)AddFriend:(id)sender;
+
 @end

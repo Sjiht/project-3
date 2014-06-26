@@ -25,6 +25,7 @@
 @end
 
 @implementation LoginViewController
+@synthesize loggedin;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -105,20 +106,20 @@
             //
             [[ChatService instance] loginWithUser:[LocalStorageService shared].currentUser completionBlock:^{
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have successfully logged in"
-                                                                message:nil
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles: nil];
-                [alert show];
+                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have successfully logged in"
+                                                                //message:nil
+                                                               //delegate:nil
+                                                      //cancelButtonTitle:@"Ok"
+                                                      //otherButtonTitles: nil];
+                //[alert show];
                 //
                 // hide alert after delay
-                double delayInSeconds = 2.0;
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    [alert dismissWithClickedButtonIndex:0 animated:YES];
-                });
-                
+                //double delayInSeconds = 2.0;
+                //dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                //dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                //    [alert dismissWithClickedButtonIndex:0 animated:YES];
+                //});
+                loggedin = 1;
                 [self dismissViewControllerAnimated:YES completion:nil];
             }];
             

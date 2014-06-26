@@ -14,6 +14,7 @@
 
 @implementation MainTabBarController
 
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
@@ -32,7 +33,8 @@
 }
 
 - (void)showSplashViewController{
-    [self performSegueWithIdentifier:kShowSplashViewControllerSegue sender:nil];
+    //[self performSegueWithIdentifier:kShowSplashViewControllerSegue sender:nil];
+    //[self performSegueWithIdentifier:kShowLoginViewControllerSegue sender:nil];
 }
 
 - (void)showLoginViewController{

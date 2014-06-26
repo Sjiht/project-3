@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7629D0D71949B4D300FC4A44 /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7629D0D61949B4D300FC4A44 /* ChatsViewController.m */; };
+		764D72D819596D5700B96025 /* ChatHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D72D719596D5700B96025 /* ChatHistory.m */; };
+		764D72DA1959A8FA00B96025 /* ChatsPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D72D91959A8FA00B96025 /* ChatsPaginator.m */; };
 		76F52D771945EB0300442B6F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76F52D761945EB0300442B6F /* Images.xcassets */; };
 		BFB4627C18150EB00010AE49 /* ChatService.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB4627B18150EB00010AE49 /* ChatService.m */; };
 		BFBD3C941832CF30009D090B /* sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BFBD3C931832CF30009D090B /* sound.mp3 */; };
@@ -61,6 +63,10 @@
 /* Begin PBXFileReference section */
 		7629D0D51949B4D300FC4A44 /* ChatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatsViewController.h; sourceTree = "<group>"; };
 		7629D0D61949B4D300FC4A44 /* ChatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatsViewController.m; sourceTree = "<group>"; };
+		764D72D619596D5700B96025 /* ChatHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatHistory.h; sourceTree = "<group>"; };
+		764D72D719596D5700B96025 /* ChatHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatHistory.m; sourceTree = "<group>"; };
+		764D72D91959A8FA00B96025 /* ChatsPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatsPaginator.m; sourceTree = "<group>"; };
+		764D72DB1959A90600B96025 /* ChatsPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatsPaginator.h; sourceTree = "<group>"; };
 		76F52D761945EB0300442B6F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BFB4627A18150EB00010AE49 /* ChatService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatService.h; sourceTree = "<group>"; };
 		BFB4627B18150EB00010AE49 /* ChatService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatService.m; sourceTree = "<group>"; };
@@ -269,7 +275,11 @@
 			isa = PBXGroup;
 			children = (
 				BFE6FBDF180EE57700E64AC4 /* UsersPaginator.h */,
+				764D72DB1959A90600B96025 /* ChatsPaginator.h */,
 				BFE6FBE0180EE57700E64AC4 /* UsersPaginator.m */,
+				764D72D91959A8FA00B96025 /* ChatsPaginator.m */,
+				764D72D619596D5700B96025 /* ChatHistory.h */,
+				764D72D719596D5700B96025 /* ChatHistory.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -401,11 +411,13 @@
 				7629D0D71949B4D300FC4A44 /* ChatsViewController.m in Sources */,
 				BFE6FB86180E8EF100E64AC4 /* AppDelegate.m in Sources */,
 				BFE6FBE1180EE57700E64AC4 /* UsersPaginator.m in Sources */,
+				764D72DA1959A8FA00B96025 /* ChatsPaginator.m in Sources */,
 				BFE6FBEE180FF69100E64AC4 /* RegistrationViewController.m in Sources */,
 				BFE6FBDC180EE50200E64AC4 /* NMPaginator.m in Sources */,
 				BFE6FBEB180FF68100E64AC4 /* LoginViewController.m in Sources */,
 				BFE6FBCF180EA2F300E64AC4 /* UsersViewController.m in Sources */,
 				BFE6FBE8180FF56400E64AC4 /* MainTabBarController.m in Sources */,
+				764D72D819596D5700B96025 /* ChatHistory.m in Sources */,
 				BFE6FBF118118BDC00E64AC4 /* СhatViewController.m in Sources */,
 				BFBD3C991833D654009D090B /* CharactersEscapeService.m in Sources */,
 				BFE6FB82180E8EF100E64AC4 /* main.m in Sources */,

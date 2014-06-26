@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ChatsViewController : UIViewController
+@property int loaded;
 
 @end

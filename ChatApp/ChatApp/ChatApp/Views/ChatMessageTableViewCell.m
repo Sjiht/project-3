@@ -21,7 +21,7 @@ static UIImage *aquaBubble;
     
     // init message datetime formatter
     messageDateFormatter = [[NSDateFormatter alloc] init];
-    [messageDateFormatter setDateFormat: @"yyyy-mm-dd HH:mm:ss"];
+    [messageDateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
     [messageDateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
     
     // init bubbles

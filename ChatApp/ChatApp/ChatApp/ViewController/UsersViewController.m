@@ -1,5 +1,5 @@
 //
-//  СhatViewController.h
+//  UsersViewController.m
 //  ChatApp
 //
 //  Created by Thijs van der Velden on 10/06/2014
@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UILabel *footerLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
+
 @end
 
 @implementation UsersViewController
@@ -26,18 +27,34 @@
 
 #pragma mark
 #pragma mark ViewController lyfe cycle
+- (void)usersLoad{
+    self.users = [NSMutableArray array];
+    UsersPaginator *usersPaginator = [[UsersPaginator alloc] init];
+    [usersPaginator dbRequest];
+    while([[usersPaginator usersArray] count] == 0)
+    {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    
+    
+    if([[usersPaginator usersArray]objectAtIndex:0] != [NSNull null]){
+        for(int i=0;i<[[usersPaginator usersArray] count]; i++) {
+            QBUUser *user = [[QBUUser alloc] init];
+            user.login = [[[usersPaginator usersArray]objectAtIndex:i]fields][@"FriendName"];
+            user.ID = (NSInteger)[[[[usersPaginator usersArray]objectAtIndex:i]fields][@"FriendID"]integerValue];
+            [self.users addObject:user];
+        }
+    }
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //NSLog(@"Friends");
-    
+    NSLog(@"Friends");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogin)
                                                  name:kUserLoggedInNotification object:nil];
     
-    self.users = [NSMutableArray array];
-    self.paginator = [[UsersPaginator alloc] initWithPageSize:10 delegate:self];
+    [self usersLoad];
 }
 
 - (void)userDidLogin{
@@ -47,6 +64,16 @@
     [self.paginator fetchFirstPage];
 }
 
+// Let keyboard disappear when touching anywhere else
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *touch = [[event allTouches] anyObject];
+    
+    if (![[touch view] isKindOfClass:[UITextField class]]) {
+        [self.view endEditing:YES];
+    }
+    [super touchesBegan:touches withEvent:event];
+}
 
 #pragma mark
 #pragma mark Storyboard
@@ -65,6 +92,7 @@
     ChatViewController *destinationViewController = (ChatViewController *)segue.destinationViewController;
     QBUUser *user = (QBUUser *)self.users[((UITableViewCell *)sender).tag];
     destinationViewController.opponent = user;
+    
 }
 
 
@@ -115,6 +143,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCellIdentifier"];
     
     QBUUser *user = (QBUUser *)self.users[indexPath.row];
+    
     cell.tag = indexPath.row;
     cell.textLabel.text = user.login;
     
@@ -154,4 +183,56 @@
     [self.usersTableView reloadData];
 }
 
+- (IBAction)AddFriend:(id)sender {
+    UITextField *FriendLabel = self.FriendLabel;
+    NSString *friendName = FriendLabel.text;
+    UsersPaginator *usersPaginator = [[UsersPaginator alloc] init];
+    [usersPaginator requestUser:friendName];
+    
+    while([[usersPaginator userrequestArray] count] == 0)
+    {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    QBUUser *user = [[usersPaginator userrequestArray]objectAtIndex:0];
+    
+    int friendID = user.ID;
+    
+    // insert into database
+    
+    [usersPaginator addUser:&friendID:friendName];
+    
+    // show message
+    if ([[usersPaginator userrequestArray] count] != 0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Friend added succesfully!"
+                                                        message: [NSString stringWithFormat:@"Added: %@ succesfully", friendName]
+                                                       delegate:self
+                                              cancelButtonTitle: @"Cancel"
+                                              otherButtonTitles:nil];
+        
+        
+        [alert show];
+    }
+    if ([[usersPaginator userrequestArray] count] == 0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User not found!"
+                                                        message: [NSString stringWithFormat:@"There is no user with username: %@", friendName]
+                                                       delegate:self
+                                              cancelButtonTitle: @"Cancel"
+                                              otherButtonTitles:nil];
+        
+        
+        [alert show];
+    }
+    
+
+    
+    
+    // deze shit hieronder werkt nog niet
+    // refresh de array met alle friends erin
+    [self usersLoad];
+    
+    // refresh de tabel
+    [self.usersTableView reloadData];
+    
+    
+}
 @end

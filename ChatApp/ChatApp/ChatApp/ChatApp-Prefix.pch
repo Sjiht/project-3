@@ -26,4 +26,6 @@
 
 #define kShowSplashViewControllerSegue @"ShowSplashViewControllerSegue"
 #define kShowLoginViewControllerSegue @"ShowLoginViewControllerSegue"
+#define kShowLoginViewControllerSegue2 @"ShowLoginViewControllerSegue2"
 #define kShowRegistrationViewControllerSegue @"ShowRegistrationViewControllerSegue"
+
