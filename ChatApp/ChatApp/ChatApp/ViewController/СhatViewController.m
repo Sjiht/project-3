@@ -27,13 +27,18 @@
 
 - (void)makeMessages
 {
+    // initiate variables
     ChatHistory *chatHistory = [[ChatHistory alloc] init];
     [chatHistory dbRequest];
     NSMutableArray *messages3;
     messages3 = [[NSMutableArray alloc]init];
+    
+    // wait until request is done
     while([[chatHistory chatsArray] count] == 0){
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
+    
+    // make messages from objects from database
     if([[chatHistory chatsArray]objectAtIndex:0] != [NSNull null]){
         for(int i = 0; i < [chatHistory chatsArray].count; i++){
             
@@ -48,9 +53,11 @@
             }
             
         }
+        // sort messages on date
         NSSortDescriptor *sort=[NSSortDescriptor sortDescriptorWithKey:@"datetime" ascending: YES];
         [messages3 sortUsingDescriptors:[NSArray arrayWithObject:sort]];
         
+        // check if opponent is there
         if(self.opponent != nil){
             self.messages = messages3;
             self.messagesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -117,21 +124,21 @@
         message.recipientID = self.opponent.ID;
         message.text = self.messageTextField.text;
         [[ChatService instance] sendMessage:message];
+        
         // Store in ChatHistory database
         ChatHistory *chatHistory = [[ChatHistory alloc] init];
         [chatHistory storeMessage:message.text :message.recipientID];
         
     }
     // Connection to the database table ChatHistory2
-    
-    // Reload the messages array
+    // Reload the messages array with the newly send message
     [self makeMessages];
 
     
     
     
     
-    // Reload table
+    // Reload table to show new send message
     self.messagesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.messagesTableView reloadData];
     if(self.messages.count > 0){

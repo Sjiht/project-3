@@ -27,21 +27,27 @@
 
 #pragma mark
 #pragma mark ViewController lyfe cycle
+// function to load all friends from database
 - (void)usersLoad{
     self.users = [NSMutableArray array];
+    // initiate function dbRequest
     UsersPaginator *usersPaginator = [[UsersPaginator alloc] init];
     [usersPaginator dbRequest];
+    
+    // wait until the database request is done
     while([[usersPaginator usersArray] count] == 0)
     {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
     
-    
+    // check if the usersArray is not empty
     if([[usersPaginator usersArray]objectAtIndex:0] != [NSNull null]){
         for(int i=0;i<[[usersPaginator usersArray] count]; i++) {
+            // make a user from the data in the array
             QBUUser *user = [[QBUUser alloc] init];
             user.login = [[[usersPaginator usersArray]objectAtIndex:i]fields][@"FriendName"];
             user.ID = (NSInteger)[[[[usersPaginator usersArray]objectAtIndex:i]fields][@"FriendID"]integerValue];
+            
             [self.users addObject:user];
         }
     }
@@ -50,7 +56,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"Friends");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogin)
                                                  name:kUserLoggedInNotification object:nil];
     
@@ -64,7 +69,7 @@
     [self.paginator fetchFirstPage];
 }
 
-// Let keyboard disappear when touching anywhere else
+// let keyboard disappear when touching anywhere else
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     UITouch *touch = [[event allTouches] anyObject];
@@ -88,6 +93,7 @@
     return YES;
 }
 
+// make the chat ready
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     ChatViewController *destinationViewController = (ChatViewController *)segue.destinationViewController;
     QBUUser *user = (QBUUser *)self.users[((UITableViewCell *)sender).tag];
@@ -138,6 +144,7 @@
 	return [self.users count];
 }
 
+// add all friends to the table
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCellIdentifier"];
@@ -183,26 +190,61 @@
     [self.usersTableView reloadData];
 }
 
+// function to add a friend
 - (IBAction)AddFriend:(id)sender {
+    // initiate variables
     UITextField *FriendLabel = self.FriendLabel;
     NSString *friendName = FriendLabel.text;
     UsersPaginator *usersPaginator = [[UsersPaginator alloc] init];
+    int alreadyFound = 0;
+    
+    // if the label is empty don't add the user
+    if([friendName isEqual: @""]){
+        alreadyFound = 1;
+    }
+    
+    // request all the users for a duplicate check
     [usersPaginator requestUser:friendName];
     
     while([[usersPaginator userrequestArray] count] == 0)
     {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
+    
+    // no idea what this does
     QBUUser *user = [[usersPaginator userrequestArray]objectAtIndex:0];
     
     int friendID = user.ID;
     
-    // insert into database
     
-    [usersPaginator addUser:&friendID:friendName];
+    self.users = [NSMutableArray array];
+    [usersPaginator dbRequest];
+    while([[usersPaginator usersArray] count] == 0)
+    {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
     
-    // show message
-    if ([[usersPaginator userrequestArray] count] != 0){
+    // duplicate check
+    if([[usersPaginator usersArray]objectAtIndex:0] != [NSNull null]){
+        for(int i=0;i<[[usersPaginator usersArray] count]; i++) {
+            QBUUser *user = [[QBUUser alloc] init];
+            user.login = [[[usersPaginator usersArray]objectAtIndex:i]fields][@"FriendName"];
+            user.ID = (NSInteger)[[[[usersPaginator usersArray]objectAtIndex:i]fields][@"FriendID"]integerValue];
+            
+            if([user.login isEqualToString: friendName])
+            {
+                alreadyFound = 1;
+            }
+        }
+    }
+    // if not a duplicate or not empty
+    if(alreadyFound != 1)
+    {
+        [self.users addObject:user];
+        // insert into database
+        [usersPaginator addUser:&friendID:friendName];
+        
+        // show alert, added friend
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Friend added succesfully!"
                                                         message: [NSString stringWithFormat:@"Added: %@ succesfully", friendName]
                                                        delegate:self
@@ -211,10 +253,14 @@
         
         
         [alert show];
+        
+        
     }
-    if ([[usersPaginator userrequestArray] count] == 0){
+    // if duplicate or empty
+    else {
+        // show alert, dont add friend
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User not found!"
-                                                        message: [NSString stringWithFormat:@"There is no user with username: %@", friendName]
+                                                        message: [NSString stringWithFormat:@"There is no user with username, or you already have a friend with the name: %@", friendName]
                                                        delegate:self
                                               cancelButtonTitle: @"Cancel"
                                               otherButtonTitles:nil];
@@ -222,12 +268,7 @@
         
         [alert show];
     }
-    
-
-    
-    
-    // deze shit hieronder werkt nog niet
-    // refresh de array met alle friends erin
+    // load the users again
     [self usersLoad];
     
     // refresh de tabel

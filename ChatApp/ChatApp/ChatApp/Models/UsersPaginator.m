@@ -17,6 +17,7 @@
 @synthesize usersArray;
 @synthesize userrequestArray;
 
+// database request to get all friends
 - (void)dbRequest
 {
     usersArray = [[NSMutableArray alloc]init];
@@ -25,6 +26,7 @@
     
 }
 
+// database request to recieve a specific friend with a specific name
 - (void)requestUser: (NSString*) friendName
 {
     PagedRequest *pagedRequest = [PagedRequest request];
@@ -34,6 +36,7 @@
     [QBUsers usersWithLogins:@[friendName] pagedRequest:pagedRequest delegate:self];
 }
 
+// database insert query to add a new friend
 - (void)addUser:(NSInteger *) friendID : (NSString*) friendName
 {
     QBCOCustomObject *object = [QBCOCustomObject customObject];
@@ -63,13 +66,15 @@
     //[QBCustomObjects objectsWithClassName:@"Friends" extendedRequest:getRequest delegate:self];
 }
 
+// if a database insert or request is succesful
 - (void)completedWithResult:(Result *)result
 {
-    
-
+    // if request is succesful
     if(result.success && [result isKindOfClass:QBCOCustomObjectPagedResult.class]){
         QBCOCustomObjectPagedResult *getObjectsResult = (QBCOCustomObjectPagedResult *)result;
         [usersArray addObjectsFromArray:getObjectsResult.objects];
+        
+        // if the request turns out empty add a temporary empty object
         if(usersArray.count == 0){
             [usersArray addObject:[NSNull null]];
         }
@@ -77,6 +82,8 @@
     else{
         [usersArray addObject:[NSNull null]];
     }
+    
+    // if request is succesful
     if(result.success && [result isKindOfClass:[QBUUserPagedResult class]]){
         QBUUserPagedResult *usersResult = (QBUUserPagedResult *)result;
         userrequestArray = [[NSMutableArray alloc]init];
@@ -91,6 +98,7 @@
         
         [userrequestArray addObject:[NSNull null]];
     }
+    // if insert was succesful
     if(result.success && [result isKindOfClass:QBCOCustomObjectResult.class]){
         QBCOCustomObjectResult *createObjectResult = (QBCOCustomObjectResult *)result;
         NSLog(@"Created object: %@", createObjectResult.object);

@@ -16,6 +16,7 @@
 
 @synthesize usersArray;
 
+// database request for all friends
 - (void)dbRequest
 {
     usersArray = [[NSMutableArray alloc]init];
@@ -40,6 +41,7 @@
 
 - (void)completedWithResult:(Result *)result
 {
+    // if request was succesful
     if(result.success && [result isKindOfClass:QBCOCustomObjectPagedResult.class]){
         QBCOCustomObjectPagedResult *getObjectsResult = (QBCOCustomObjectPagedResult *)result;
         [usersArray addObjectsFromArray:getObjectsResult.objects];

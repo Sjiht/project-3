@@ -47,8 +47,10 @@
     
     // Your app connects to QuickBlox server here.
     //
-    // QuickBlox session creation
+    // QuickBlox session creation (connection with the SDK)
 	[QBAuth createSessionWithDelegate:self];
+    
+    // Make sure the connection with the SDK is finished
     while(loaded != 1)
     {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
@@ -57,15 +59,21 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogin)
                                                  name:kUserLoggedInNotification object:nil];
     
+    
     self.chats = [NSMutableArray array];
     ChatsPaginator *chatsPaginator = [[ChatsPaginator alloc] init];
+    
     if(loaded == 1)
     {
         [chatsPaginator dbRequest];
+        
+        // wait for request
         while([[chatsPaginator usersArray] count] == 0)
         {
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         }
+        
+        // make users from objects and add them
         if([[chatsPaginator usersArray]objectAtIndex:0] != [NSNull null]){
             for(int i=0;i<[[chatsPaginator usersArray] count]; i++) {
                 QBUUser *user = [[QBUUser alloc] init];

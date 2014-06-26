@@ -14,12 +14,14 @@
 @implementation ChatHistory
 
 @synthesize chatsArray;
+// database request for all saved messages
 - (void)dbRequest
 {
     NSMutableDictionary *getRequest = [NSMutableDictionary dictionary];
     [QBCustomObjects objectsWithClassName:@"ChatHistory2" extendedRequest:getRequest delegate:self];
 }
 
+// database insert for a send message
 - (void)storeMessage: (NSString*) messageText : (NSInteger) recipientID
 {
     QBCOCustomObject *object = [QBCOCustomObject customObject];
